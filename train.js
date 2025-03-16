@@ -1,4 +1,4 @@
-let trainingData = JSON.parse(localStorage.getItem("trainingData")) || []; // โหลดข้อมูลเก่ามาใช้
+let trainingData = JSON.parse(localStorage.getItem("trainingData")) || []; // โหลดข้อมูลที่บันทึกไว้
 
 async function trainBot() {
     const trainStatus = document.getElementById("train-status");
@@ -12,15 +12,27 @@ async function trainBot() {
         return;
     }
 
-    // แปลงข้อความเป็นตัวเลข (simplified encoding)
+    // แปลงข้อความเป็นตัวเลข
     let xs = trainingData.map(data => textToNumbers(data.input, 10));
     let ys = trainingData.map(data => textToNumbers(data.output, 10));
 
     xs = tf.tensor2d(xs);
     ys = tf.tensor2d(ys);
 
-    await model.fit(xs, ys, { epochs: 10 });
+    const epochs = 10; // จำนวนรอบการเทรน
+    const estimatedTimePerEpoch = 1; // ประมาณ 1 วิ ต่อ 1 epoch (ขึ้นกับอุปกรณ์)
+    let remainingTime = epochs * estimatedTimePerEpoch;
 
+    // ตั้ง Interval เพื่อนับถอยหลัง
+    const countdown = setInterval(() => {
+        trainStatus.innerText = `⏳ กำลังเทรน AI... เหลือ ${remainingTime} วินาที`;
+        remainingTime--;
+        if (remainingTime <= 0) clearInterval(countdown);
+    }, 1000);
+
+    await model.fit(xs, ys, { epochs });
+
+    clearInterval(countdown); // หยุดนับถอยหลัง
     const endTime = performance.now();
     const trainTime = ((endTime - startTime) / 1000).toFixed(2);
 
