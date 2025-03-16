@@ -1,21 +1,38 @@
+let trainingData = JSON.parse(localStorage.getItem("trainingData")) || []; // โหลดข้อมูลเก่ามาใช้
+
 async function trainBot() {
     const trainStatus = document.getElementById("train-status");
     trainStatus.innerText = "⏳ กำลังเทรน AI...";
 
     console.log("📚 กำลังฝึกโมเดล...");
-    const startTime = performance.now(); // เริ่มจับเวลา
+    const startTime = performance.now();
 
-    // ตัวอย่างข้อมูล (ในอนาคตสามารถเพิ่มข้อมูลจากผู้ใช้)
-    const xs = tf.tensor2d([[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]]);
-    const ys = tf.tensor2d([[0, 0, 0, 0, 0, 1, 0, 0, 0, 0]]);
+    if (trainingData.length < 1) {
+        trainStatus.innerText = "⚠️ ไม่มีข้อมูลให้เทรน!";
+        return;
+    }
+
+    // แปลงข้อความเป็นตัวเลข (simplified encoding)
+    let xs = trainingData.map(data => textToNumbers(data.input, 10));
+    let ys = trainingData.map(data => textToNumbers(data.output, 10));
+
+    xs = tf.tensor2d(xs);
+    ys = tf.tensor2d(ys);
 
     await model.fit(xs, ys, { epochs: 10 });
 
-    const endTime = performance.now(); // จับเวลาสิ้นสุด
-    const trainTime = ((endTime - startTime) / 1000).toFixed(2); // แปลงเป็นวินาที
+    const endTime = performance.now();
+    const trainTime = ((endTime - startTime) / 1000).toFixed(2);
 
-    console.log(`✅ โมเดลถูกฝึกแล้ว! ใช้เวลา ${trainTime} วินาที`);
+    console.log(`✅ เทรนสำเร็จ! ใช้เวลา ${trainTime} วินาที`);
     trainStatus.innerText = `✅ เทรนสำเร็จ! ใช้เวลา ${trainTime} วินาที`;
 
     await saveModel();
+}
+
+// ฟังก์ชันแปลงข้อความเป็นตัวเลข
+function textToNumbers(text, length) {
+    let numbers = text.split('').map(char => char.charCodeAt(0) % 100);
+    while (numbers.length < length) numbers.push(0); // เติม 0 ให้ครบความยาว
+    return numbers.slice(0, length);
 }
