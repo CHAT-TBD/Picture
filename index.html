@@ -3,46 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แชทบอทวาดรูป</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        #chatbox { width: 400px; height: 400px; overflow-y: scroll; border: 1px solid black; margin: auto; padding: 10px; }
-        .message { padding: 5px; border-radius: 5px; margin: 5px; }
-        .user { background-color: #d1e7dd; text-align: right; }
-        .bot { background-color: #f8d7da; text-align: left; }
-        img { max-width: 100%; border-radius: 5px; }
-    </style>
-    <script>
-        async function sendMessage() {
-            let input = document.getElementById("userInput");
-            let message = input.value.trim();
-            if (!message) return;
-            
-            let chatbox = document.getElementById("chatbox");
-            chatbox.innerHTML += `<div class='message user'>${message}</div>`;
-            
-            let response = await fetch("/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: message })
-            });
-            let data = await response.json();
-
-            if (data.type === "text") {
-                chatbox.innerHTML += `<div class='message bot'>${data.content}</div>`;
-            } else if (data.type === "image") {
-                chatbox.innerHTML += `<div class='message bot'><img src='${data.content}' alt='AI วาดภาพ'></div>`;
-            }
-            
-            chatbox.scrollTop = chatbox.scrollHeight;
-            input.value = "";
-        }
-    </script>
+    <title>AI Chatbot</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>แชทบอทวาดรูป</h1>
-    <div id="chatbox"></div>
-    <input type="text" id="userInput" placeholder="พิมพ์ว่า วาดแมวใส่หมวก">
-    <button onclick="sendMessage()">ส่ง</button>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box"></div>
+        <input type="text" id="user-input" placeholder="พิมพ์ข้อความที่นี่...">
+        <button onclick="sendMessage()">ส่ง</button>
+        <button onclick="trainBot()">📚 เทรน AI</button>
+        <p id="train-status"></p> <!-- แสดงสถานะการเทรน -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="model.js"></script>
+    <script src="train.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
