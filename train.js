@@ -1,10 +1,6 @@
 let trainingData = JSON.parse(localStorage.getItem("trainingData")) || []; // โหลดข้อมูลที่บันทึกไว้
 
-async function trainBot() {
-    const trainStatus = document.getElementById("train-status");
-    trainStatus.innerText = "⏳ กำลังเทรน AI...";
-
-    console.log("📚 กำลังฝึกโมเดล...");
+console.log("📚 กำลังฝึกโมเดล...");
     const startTime = performance.now();
 
     if (trainingData.length < 1) {
@@ -38,6 +34,11 @@ async function trainBot() {
 
     console.log(`✅ เทรนสำเร็จ! ใช้เวลา ${trainTime} วินาที`);
     trainStatus.innerText = `✅ เทรนสำเร็จ! ใช้เวลา ${trainTime} วินาที`;
+
+
+async function trainBot() {
+    const trainStatus = document.getElementById("train-status");
+    trainStatus.innerText = "⏳ กำลังเทรน AI... เหลือ ${remainingTime} วินาที";
 
     await saveModel();
 }
