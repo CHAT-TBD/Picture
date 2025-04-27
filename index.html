@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chatbot</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat TBD</title>
+  <link rel="website icon" type="png" href="https://img2.pic.in.th/pic/1000057685.jpg">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="chat-container">
-        <div class="chat-box" id="chat-box"></div>
-        <input type="text" id="user-input" placeholder="พิมพ์ข้อความที่นี่...">
-        <button onclick="sendMessage()">ส่ง</button>
-        <button onclick="trainBot()">📚 เทรน AI</button>
-        <p id="train-status"></p> <!-- แสดงสถานะการเทรน -->
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="header-left">
+        <img src="https://img2.pic.in.th/pic/1000057685.jpg" alt="Logo" class="logo">
+        <h2></h2>
+      </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="model.js"></script>
-    <script src="train.js"></script>
-    <script src="script.js"></script>
+    <div class="language-select">
+        <button id="lang-th" class="lang-button active">ไทย🇹🇭(BETA)</button>
+    </div>
+    <div class="chat-body" id="chat-body">
+      <!-- Messages will appear here -->
+    </div>
+    <div class="chat-footer">
+      <input type="text" id="user-input" placeholder="พิมพ์ข้อความ...">
+      <button id="send-button">📨</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
