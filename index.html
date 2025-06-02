@@ -2,11 +2,11 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Countdown ถึงวันที่ 8 พฤษภาคม</title>
+  <title>Countdown ถึงวันที่ 8 มิถุนายน</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f7f7f7;
+      background: #f0f4f8;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -19,11 +19,11 @@
       background: white;
       padding: 40px;
       border-radius: 15px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
 
     .countdown {
-      font-size: 2em;
+      font-size: 2.5em;
       font-weight: bold;
       color: #333;
     }
@@ -39,12 +39,12 @@
 
   <div class="countdown-container">
     <div class="countdown" id="countdown">00:00:00:00</div>
-    <div class="label">เหลือเวลาถึงวันที่ 8 พฤษภาคม</div>
+    <div class="label">นับถอยหลังถึงวันที่ 8 มิถุนายน</div>
   </div>
 
   <script>
-    // ตั้งค่าวันสิ้นสุด
-    const targetDate = new Date("May 8, 2025 00:00:00").getTime();
+    // วันที่เป้าหมาย: 8 มิถุนายน 2025 เวลา 00:00:00
+    const targetDate = new Date("June 8, 2025 00:00:00").getTime();
 
     const countdownElement = document.getElementById("countdown");
 
@@ -63,7 +63,7 @@
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      countdownElement.innerHTML = 
+      countdownElement.innerHTML =
         `${pad(days)}:${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
     }
 
@@ -71,8 +71,8 @@
       return num.toString().padStart(2, '0');
     }
 
-    updateCountdown(); // เรียกครั้งแรกทันที
-    const interval = setInterval(updateCountdown, 1000); // อัปเดตทุก 1 วินาที
+    updateCountdown(); // เรียกทันที
+    const interval = setInterval(updateCountdown, 1000); // อัปเดตทุกวินาที
   </script>
 
 </body>
