@@ -2,30 +2,78 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat TBD</title>
-  <link rel="website icon" type="png" href="https://img2.pic.in.th/pic/1000057685.jpg">
-  <link rel="stylesheet" href="styles.css">
+  <title>Countdown ถึงวันที่ 8 พฤษภาคม</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .countdown-container {
+      text-align: center;
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .countdown {
+      font-size: 2em;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .label {
+      margin-top: 10px;
+      font-size: 1.2em;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-  <div class="chat-container">
-    <div class="chat-header">
-      <div class="header-left">
-        <img src="https://img2.pic.in.th/pic/1000057685.jpg" alt="Logo" class="logo">
-        <h2></h2>
-      </div>
-    </div>
-    <div class="language-select">
-        <button id="lang-th" class="lang-button active">ไทย🇹🇭(BETA)</button>
-    </div>
-    <div class="chat-body" id="chat-body">
-      <!-- Messages will appear here -->
-    </div>
-    <div class="chat-footer">
-      <input type="text" id="user-input" placeholder="พิมพ์ข้อความ...">
-      <button id="send-button">📨</button>
-    </div>
+
+  <div class="countdown-container">
+    <div class="countdown" id="countdown">00:00:00:00</div>
+    <div class="label">เหลือเวลาถึงวันที่ 8 พฤษภาคม</div>
   </div>
-  <script src="script.js"></script>
+
+  <script>
+    // ตั้งค่าวันสิ้นสุด
+    const targetDate = new Date("May 8, 2025 00:00:00").getTime();
+
+    const countdownElement = document.getElementById("countdown");
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance <= 0) {
+        countdownElement.innerHTML = "หมดเวลาแล้ว!";
+        clearInterval(interval);
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownElement.innerHTML = 
+        `${pad(days)}:${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    }
+
+    function pad(num) {
+      return num.toString().padStart(2, '0');
+    }
+
+    updateCountdown(); // เรียกครั้งแรกทันที
+    const interval = setInterval(updateCountdown, 1000); // อัปเดตทุก 1 วินาที
+  </script>
+
 </body>
 </html>
